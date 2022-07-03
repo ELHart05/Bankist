@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style/style.css">
+    <link rel="icon" href="images/logo.png">
+    <title>Bankist | Home</title>
+</head>
+
+<body>
+
+        <!-- loading screen for window loaded case -->
+        <div class="loading-screen">
+            <img src="images/logo.png" alt="logo" class="loading-logo">
+        </div>
+        <!-- some infos displayed for show on first time -->
+        <div class="introStart">
+            <button class="close-intro-btn"></button>
+            <h3>Bankist - simple online banking app</h3>
+            <p>This application allows users to login, transfer funds to other accounts, borrow funds or close the account.
+                <br><br>
+                You can log in and try it out using one of the following credentials:</p>
+            <ul>
+                <li>User1 - login:js, pin:1111</li>
+                <li>User2 - login:jd, pin:2222</li>
+                <li>User3 - login:stw, pin:3333</li>
+                <li>User4 - login:ss, pin:4444</li>
+                <li>User5 - login:oa, pin:5555</li>
+            </ul>
+        </div>
+
+    <nav>
+        <img src="images/logo.png" alt="logo" class="logo">
+        <pre class="intro-p" style="display: none;"><span class="greeting">Hello,</span>&NonBreakingSpace;<span class="welcome-span">Variable</span></pre>
+        <form class="login-form main-form">
+            <input type="text" class="form-input form-input-user" placeholder="User">
+            <input type="text" class="form-input form-input-pin" inputmode="number" placeholder="PIN">
+            <input type="submit" value="→" class="submit-input submit-btn">
+        </form>
+    </nav>
+
+    <main>
+        <div class="info-container">
+            <div class="left-container">
+                <div class="movements">
+                    <div class="current">
+                        <p class="current-text">Current balance</p>
+                        <p class="as-of-text">As of <span class="date-format">01/07/2022 ,20:30</span></p>
+                    </div>
+                    <!--movs are added here -->
+                </div>
+
+                <div class="left-side-footer">
+                    <div>
+                        <p style="margin: 0;">IN <span class="in">3840€</span></p>
+                        <p>OUT <span class="out">1180€</span></p>
+                        <p>INTEREST <span class="interest">54,24€</span></p>
+                    </div>
+                    <button class="sort">SORT↓</button>
+                </div>
+            </div>
+
+            <div class="feautures-container">
+                <p class="total-value">3840€</p>
+                <div class="transfert">
+                    <h2>Transfer Money</h2>
+                    <form class="login-form form">
+                        <div><input type="text" id="transfer-to" class="insideForm-input" placeholder="User"><label for="transfer-to">Transfer to</label></div>
+                        <div><input type="number" id="amount1" class="insideForm-input" inputmode="number" max="250000" min="0" placeholder="Amount"><label for="amount1">Amount (max:250000€)</label></div>
+                        <input type="submit" value="→" class="submit-btn transfer-btn">
+                    </form>
+                </div>
+                <div class="request">
+                    <h2>Request loan</h2>
+                    <form class="login-form form loan-form">
+                        <div><input type="number" id="amount2" class="insideForm-input" inputmode="number" max="250000" min="0" placeholder="Amount"><label for="amount2">Amount (max:250000€)</label></div>
+                        <input type="submit" value="→" class="submit-btn request-btn">
+                    </form>
+                </div>
+                <div class="close">
+                    <h2>Close account</h2>
+                    <form class="login-form form">
+                        <div><input type="text" id="confirm-user" class="insideForm-input" placeholder="User"><label for="confirm-user">Confirm user</label></div>
+                        <div><input type="text" id="confirm-pin" class="insideForm-input" inputmode="number" placeholder="PIN"><label for="confirm-pin">Confirm PIN</label></div>
+                        <input type="submit" value="→" class="submit-btn close-btn">
+                    </form>
+                </div>
+                <p class="right-side-footer">You will be logged out in <span class="timer">10:00</span></p>
+            </div>
+        </div>
+    </main>
+
+    <p class="rights">&copy;Okba All Rights Reserved</p>
+
+    <script src="script/script.js"></script>
+</body>
+
+</html>
