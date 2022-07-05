@@ -9,6 +9,7 @@ the website is responsive (min: 300px) contains all JavaScript FrontEnd Ideas wh
     Calce Incomes and outcomes and interest base on user interest rate
     Sort Movements
     Checking Login Data
+    Greeting depending on time
     
 
 <hr>
