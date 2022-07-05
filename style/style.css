@@ -478,7 +478,12 @@ main {
     }
 }
 
-@media screen and (max-width: 675px) {
+@media screen and (max-width: 690px) {
+
+
+    .form label {
+        font-size: 13px;
+    }
 
     .info-container {
         margin-top: 0;
@@ -503,13 +508,13 @@ main {
 
     .info-container {
         flex-direction: column-reverse;
-        padding: 0 5px;
+        padding: 0 2px;
         margin-top: 0;
     }
 
     .feautures-container {
         margin-left: 0;
-        width: unset;
+        width: 100%;
     }
 
     .right-side-footer {

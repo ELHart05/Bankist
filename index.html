@@ -69,14 +69,14 @@
                     <h2>Transfer Money</h2>
                     <form class="login-form form">
                         <div><input type="text" id="transfer-to" class="insideForm-input" placeholder="User"><label for="transfer-to">Transfer to</label></div>
-                        <div><input type="number" id="amount1" class="insideForm-input" inputmode="number" max="250000" min="0" placeholder="Amount"><label for="amount1">Amount (max:250000€)</label></div>
+                        <div><input type="number" step="0.01" pattern="^\d+\.\d\d$" id="amount1" class="insideForm-input" inputmode="number" max="250000" min="0" placeholder="Amount"><label for="amount1">Amount (max:250000€)</label></div>
                         <input type="submit" value="→" class="submit-btn transfer-btn">
                     </form>
                 </div>
                 <div class="request">
                     <h2>Request loan</h2>
                     <form class="login-form form loan-form">
-                        <div><input type="number" id="amount2" class="insideForm-input" inputmode="number" max="250000" min="0" placeholder="Amount"><label for="amount2">Amount (max:250000€)</label></div>
+                        <div><input type="number" step="0.01" pattern="^\d+\.\d\d$" id="amount2" class="insideForm-input" inputmode="number" max="250000" min="0" placeholder="Amount"><label for="amount2">Amount (max:250000€)</label></div>
                         <input type="submit" value="→" class="submit-btn request-btn">
                     </form>
                 </div>

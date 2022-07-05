@@ -126,6 +126,12 @@ accounts.forEach(acc => {
     acc.shortName = shortName(acc.owner);
 })
 
+
+function checkDigit(val) {
+    const length = val.length - val.indexOf('.');
+    return ((val.includes('.')) && (length == 1 || length == 2 || length == 3) || (val.indexOf(".") == -1))
+}
+
 function concateZero(val) {
     return (val < 10) ? `0${val}` : val;
 }
@@ -178,7 +184,7 @@ function loadDraws(movementsTab) {
             }),
             valueP = Object.assign(document.createElement("p"), {
                 classList: "value-moved",
-                textContent: `${mov[0]}€`
+                textContent: `${(mov[0]).toFixed(2)}€`
             })
         moveDiv.append(moveP, dateP);
         mainDiv.append(moveDiv, valueP);
@@ -190,10 +196,10 @@ function loadDraws(movementsTab) {
 function updateValues(movementsTab, account) {
     let Incomes = movementsTab.filter(elem => elem[0] >= 0).reduce((acc, cur) => acc += cur[0], 0),
         Outcomes = Math.abs(movementsTab.filter(elem => elem[0] < 0).reduce((acc, cur) => acc += cur[0], 0));
-    totalValue.textContent = `TOTAL : ${movementsTab.reduce((acc, cur) => acc += cur[0], 0)}€`;
-    In.textContent = `${Incomes}€`;
-    Out.textContent = `${Outcomes}€`;
-    Interst.textContent = `${(Incomes - Outcomes)-((Incomes - Outcomes)*(account.interestRate/100))}€`;
+    totalValue.textContent = `TOTAL : ${(movementsTab.reduce((acc, cur) => acc += cur[0], 0)).toFixed(2)}€`;
+    In.textContent = `${(Incomes).toFixed(2)}€`;
+    Out.textContent = `${(Outcomes).toFixed(2)}€`;
+    Interst.textContent = `${((Incomes - Outcomes)-((Incomes - Outcomes)*(account.interestRate/100))).toFixed(2)}€`;
     (Number(Interst.textContent.slice(0, -1)) >= 0) ? Interst.style.color = "#66c873": Interst.style.color = "#f5465d";
 }
 
@@ -203,13 +209,13 @@ function initializeValues() {
 
 function greetingTime() {
     switch (true) {
-        case ((new Date().getHours() < 13 && new Date().getHours() > 5)):
+        case ((new Date().getHours() > 5 && new Date().getHours() <= 13)):
             greeting.textContent = 'Good Morning,';
             break;
-        case (new Date().getHours() <= 19):
+        case (new Date().getHours > 13 && new Date().getHours() <= 19):
             greeting.textContent = 'Good Evenening,';
             break;
-        case (new Date().getHours() > 19):
+        case ((new Date().getHours() > 19) || (new Date().getHours() > 0)):
             greeting.textContent = 'Good Night,';
             break;
     }
@@ -280,51 +286,47 @@ function checkUser(e) {
             });
 
 
+            transferBtn.addEventListener("click", function (e) {
+                e.preventDefault();
+                let transferCounter = 0;
+                accounts.forEach(account => {
+                    if ((transferInput.value) && (checkDigit(amount1Input.value)) && (transferInput.value == account.shortName) && (transferInput.value != acc.shortName) && (amount1Input.value >= 0) && (amount1Input.value <= 250000) && (amount1Input.value <= parseFloat(totalValue.textContent.slice(8, -1)))) {
+                        acc.movements.unshift([parseFloat(`-${amount1Input.value}`), `${concateZero(new Date().getDate())}/${concateZero(new Date().getMonth() + 1)}/${concateZero(new Date().getFullYear())}, ${concateZero(new Date().getHours())}:${concateZero(new Date().getMinutes())}`]);
+                        loadDraws(acc.movements);
+                        updateValues(acc.movements, acc);
+                        account.movements.unshift([parseFloat(amount1Input.value), `${concateZero(new Date().getDate())}/${concateZero(new Date().getMonth() + 1)}/${concateZero(new Date().getFullYear())}, ${concateZero(new Date().getHours())}:${concateZero(new Date().getMinutes())}`]);
+                        window.localStorage.setItem("myTab", JSON.stringify(accounts));
+                        transferInput.blur();
+                        amount1Input.blur();
+                        transferCounter++;
+                    }
+                })
+                if (transferCounter == 0) {
+                    amount1Input.classList.add("redBorder");
+                    transferInput.classList.add("redBorder");
+                }
+                console.log(transferCounter);
+                transferInput.value = amount1Input.value = '';
+            });
+
             requestBtn.addEventListener("click", function (e) {
                 e.preventDefault();
-                let requestCounter = 0;
-                if ((amount2Input.value > 0) && (amount2Input.value <= 250000) && (amount2Input.value)) {
-                    acc.movements.unshift([parseInt(amount2Input.value), `${concateZero(new Date().getDate())}/${concateZero(new Date().getMonth() + 1)}/${concateZero(new Date().getFullYear())}, ${concateZero(new Date().getHours())}:${concateZero(new Date().getMinutes())}`]);
+                if ((amount2Input.value > 0) && (checkDigit(amount2Input.value)) && (amount2Input.value <= 250000) && (amount2Input.value)) {
+                    console.log(amount2Input.value);
+                    acc.movements.unshift([parseFloat(amount2Input.value), `${concateZero(new Date().getDate())}/${concateZero(new Date().getMonth() + 1)}/${concateZero(new Date().getFullYear())}, ${concateZero(new Date().getHours())}:${concateZero(new Date().getMinutes())}`]);
                     loadDraws(acc.movements);
                     updateValues(acc.movements, acc);
                     amount2Input.blur();
                     window.localStorage.setItem("myTab", JSON.stringify(accounts));
-                    requestCounter++;
-                }
-                if (requestCounter == 0) {
-                    amount1Input.classList.add("redBorder");
-                    transferInput.classList.add("redBorder");
+                } else {
+                    amount2Input.classList.add("redBorder");
                 }
                 amount2Input.value = '';
             });
 
 
-            transferBtn.addEventListener("click", function (e) {
-                e.preventDefault();
-                let transerCounter = 0;
-                accounts.forEach(account => {
-                    if ((transferInput.value) && (transferInput.value == account.shortName) && (transferInput.value != acc.shortName) && (amount1Input.value >= 0) && (amount1Input.value <= 250000) && (amount1Input.value <= parseInt(totalValue.textContent.slice(8, -1)))) {
-                        acc.movements.unshift([parseInt(`-${amount1Input.value}`), `${concateZero(new Date().getDate())}/${concateZero(new Date().getMonth() + 1)}/${concateZero(new Date().getFullYear())}, ${concateZero(new Date().getHours())}:${concateZero(new Date().getMinutes())}`]);
-                        loadDraws(acc.movements);
-                        updateValues(acc.movements, acc);
-                        account.movements.unshift([parseInt(amount1Input.value), `${concateZero(new Date().getDate())}/${concateZero(new Date().getMonth() + 1)}/${concateZero(new Date().getFullYear())}, ${concateZero(new Date().getHours())}:${concateZero(new Date().getMinutes())}`]);
-                        window.localStorage.setItem("myTab", JSON.stringify(accounts));
-                        transferInput.blur();
-                        amount1Input.blur();
-                        transerCounter++;
-                    }
-                })
-                if (transerCounter == 0) {
-                    amount1Input.classList.add("redBorder");
-                    transferInput.classList.add("redBorder");
-                }
-                transferInput.value = amount1Input.value = '';
-            });
-
-
             closeBtn.addEventListener("click", function (e) {
                 e.preventDefault();
-                let closeCounter = 0;
                 if ((closeInputUser.value.toLowerCase() == acc.shortName) && (closeInputPIN.value == acc.pin)) {
                     main.style.display = "none";
                     introP.style.display = "none";
@@ -335,9 +337,7 @@ function checkUser(e) {
                     inputPIN.classList.remove("redBorder");
                     logo.classList.remove("logo-active");
                     clearInterval(timing);
-                    closeCounter++;
-                }
-                if (closeCounter == 0) {
+                } else {
                     closeInputPIN.classList.add("redBorder");
                     closeInputUser.classList.add("redBorder");
                 }
