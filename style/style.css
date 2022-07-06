@@ -478,7 +478,7 @@ main {
     }
 }
 
-@media screen and (max-width: 690px) {
+@media screen and (max-width: 725px) {
 
 
     .form label {
@@ -490,7 +490,7 @@ main {
     }
 
     .left-side-footer>div>p>span {
-        font-size: 15px;
+        font-size: 12px;
     }
 
     .introStart {

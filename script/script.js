@@ -229,12 +229,17 @@ inputsTable.forEach(input => {
     })
 });
 
+function sortTab(arr){
+    
+}
+
 function checkUser(e) {
     e.preventDefault();
     let m = 10,
         s = 0;
     accounts.forEach(acc => {
         if ((inputUser.value.toLowerCase() == acc.shortName) && (inputPIN.value == acc.pin)) {
+            
             let sortedTable = [...acc.movements].sort((a, b) => {
                 if (a[0] < b[0]) return 1;
                 if (a[0] > b[0]) return -1;
@@ -284,8 +289,6 @@ function checkUser(e) {
                     loadDraws(acc.movements);
                 }
             });
-
-
             transferBtn.addEventListener("click", function (e) {
                 e.preventDefault();
                 let transferCounter = 0;
@@ -298,6 +301,11 @@ function checkUser(e) {
                         window.localStorage.setItem("myTab", JSON.stringify(accounts));
                         transferInput.blur();
                         amount1Input.blur();
+                        sortedTable = [...acc.movements].sort((a, b) => {
+                            if (a[0] < b[0]) return 1;
+                            if (a[0] > b[0]) return -1;
+                            return 0;
+                        });
                         transferCounter++;
                     }
                 })
@@ -305,17 +313,20 @@ function checkUser(e) {
                     amount1Input.classList.add("redBorder");
                     transferInput.classList.add("redBorder");
                 }
-                console.log(transferCounter);
                 transferInput.value = amount1Input.value = '';
             });
 
             requestBtn.addEventListener("click", function (e) {
                 e.preventDefault();
                 if ((amount2Input.value > 0) && (checkDigit(amount2Input.value)) && (amount2Input.value <= 250000) && (amount2Input.value)) {
-                    console.log(amount2Input.value);
                     acc.movements.unshift([parseFloat(amount2Input.value), `${concateZero(new Date().getDate())}/${concateZero(new Date().getMonth() + 1)}/${concateZero(new Date().getFullYear())}, ${concateZero(new Date().getHours())}:${concateZero(new Date().getMinutes())}`]);
                     loadDraws(acc.movements);
                     updateValues(acc.movements, acc);
+                    sortedTable = [...acc.movements].sort((a, b) => {
+                        if (a[0] < b[0]) return 1;
+                        if (a[0] > b[0]) return -1;
+                        return 0;
+                    });
                     amount2Input.blur();
                     window.localStorage.setItem("myTab", JSON.stringify(accounts));
                 } else {
