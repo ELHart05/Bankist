@@ -208,14 +208,17 @@ function initializeValues() {
 }
 
 function greetingTime() {
+    let morningTime = [6, 7, 8, 9, 10, 11, 12, 13],
+        eveneningTime = [14, 15, 16, 17, 18, 19],
+        nightTime = [20, 21, 22, 23, 0, 1, 2, 3, 4, 5];
     switch (true) {
-        case ((new Date().getHours() > 5 && new Date().getHours() <= 13)):
+        case (morningTime.includes(new Date().getHours())):
             greeting.textContent = 'Good Morning,';
             break;
-        case (new Date().getHours > 13 && new Date().getHours() <= 19):
+        case (eveneningTime.includes(new Date().getHours())):
             greeting.textContent = 'Good Evenening,';
             break;
-        case ((new Date().getHours() > 19) || (new Date().getHours() > 0)):
+        case (nightTime.includes(new Date().getHours())):
             greeting.textContent = 'Good Night,';
             break;
     }
@@ -229,17 +232,13 @@ inputsTable.forEach(input => {
     })
 });
 
-function sortTab(arr){
-    
-}
-
 function checkUser(e) {
     e.preventDefault();
     let m = 10,
         s = 0;
     accounts.forEach(acc => {
         if ((inputUser.value.toLowerCase() == acc.shortName) && (inputPIN.value == acc.pin)) {
-            
+
             let sortedTable = [...acc.movements].sort((a, b) => {
                 if (a[0] < b[0]) return 1;
                 if (a[0] > b[0]) return -1;
