@@ -102,7 +102,6 @@ const logo = document.querySelector(".logo");
 const closeIntroBtn = document.querySelector(".close-intro-btn");
 const introStartDiv = document.querySelector(".introStart");
 const transferInput = document.querySelector("#transfer-to");
-const dateFormat = document.querySelector(".date-format");
 const main = document.querySelector("main");
 const nav = document.querySelector("nav");
 
@@ -136,12 +135,6 @@ function concateZero(val) {
     return (val < 10) ? `0${val}` : val;
 }
 
-function refreshSpan() {
-    dateFormat.textContent = `${concateZero(new Date().getDate())}/${concateZero(new Date().getMonth() + 1)}/${concateZero(new Date().getFullYear())}, ${concateZero(new Date().getHours())}:${concateZero(new Date().getMinutes())}`;
-}
-
-setInterval(refreshSpan, 1000);
-
 closeIntroBtn.addEventListener("click", function () {
     introStartDiv.style.display = "none";
 })
@@ -159,14 +152,33 @@ window.addEventListener("blur", function () {
     title.textContent = "Bankist | Come Back";
 })
 
+
+function refreshSpan(targetSpan) {
+    targetSpan.textContent = `${concateZero(new Date().getDate())}/${concateZero(new Date().getMonth() + 1)}/${concateZero(new Date().getFullYear())}, ${concateZero(new Date().getHours())}:${concateZero(new Date().getMinutes())}`;
+}
+
 function loadDraws(movementsTab) {
+    movementsCard.innerHTML = '';
     let cpt = movementsTab.length;
-    movementsCard.innerHTML = `
-    <div class="current">
-      <p class="current-text">Current balance</p>
-      <p class="as-of-text">As of <span class="date-format">${concateZero(new Date().getDate())}/${concateZero(new Date().getMonth() + 1)}/${concateZero(new Date().getFullYear())}, ${concateZero(new Date().getHours())}:${concateZero(new Date().getMinutes())}</span></p>
-    </div>
-    `
+    const mainDiv = Object.assign(document.createElement("div"), {
+            classList: "current"
+        }),
+        currentParagraph = Object.assign(document.createElement("p"), {
+            classList: "current-text",
+            textContent: "Current balance"
+        }),
+        asOfText = Object.assign(document.createElement("p"), {
+            classList: "as-of-text"
+        }),
+        dateSpan = Object.assign(document.createElement("span"), {
+            classList: "date-format",
+            textContent: `${concateZero(new Date().getDate())}/${concateZero(new Date().getMonth() + 1)}/${concateZero(new Date().getFullYear())}, ${concateZero(new Date().getHours())}:${concateZero(new Date().getMinutes())}`
+        }),
+        asOfTextContent = document.createTextNode("As of ");
+    asOfText.append(asOfTextContent, dateSpan);
+    mainDiv.append(currentParagraph, asOfText);
+    movementsCard.appendChild(mainDiv);
+    setInterval(refreshSpan, 1000, dateSpan);
     movementsTab.forEach(mov => {
         let mainDiv = Object.assign(document.createElement("div"), {
                 classList: "move"
@@ -292,7 +304,7 @@ function checkUser(e) {
                 e.preventDefault();
                 let transferCounter = 0;
                 accounts.forEach(account => {
-                    if ((transferInput.value) && (checkDigit(amount1Input.value)) && (transferInput.value == account.shortName) && (transferInput.value != acc.shortName) && (amount1Input.value >= 0) && (amount1Input.value <= 250000) && (amount1Input.value <= parseFloat(totalValue.textContent.slice(8, -1)))) {
+                    if ((transferInput.value) && (checkDigit(amount1Input.value)) && (transferInput.value.toLowerCase() == account.shortName) && (transferInput.value != acc.shortName) && (amount1Input.value >= 0) && (amount1Input.value <= 250000) && (amount1Input.value <= parseFloat(totalValue.textContent.slice(8, -1)))) {
                         acc.movements.unshift([parseFloat(`-${amount1Input.value}`), `${concateZero(new Date().getDate())}/${concateZero(new Date().getMonth() + 1)}/${concateZero(new Date().getFullYear())}, ${concateZero(new Date().getHours())}:${concateZero(new Date().getMinutes())}`]);
                         loadDraws(acc.movements);
                         updateValues(acc.movements, acc);
