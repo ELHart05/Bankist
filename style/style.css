@@ -412,6 +412,7 @@ main {
     align-items: center;
     justify-content: center;
     flex-direction: row;
+    max-width: 350px;
 }
 
 .left-side-footer>div>p,
@@ -478,7 +479,7 @@ main {
     }
 }
 
-@media screen and (max-width: 725px) {
+@media screen and (max-width: 800px) {
 
 
     .form label {
