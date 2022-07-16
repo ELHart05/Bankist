@@ -480,8 +480,6 @@ main {
 }
 
 @media screen and (max-width: 800px) {
-
-
     .form label {
         font-size: 13px;
     }
@@ -570,5 +568,11 @@ main {
     .submit-input {
         width: 30%;
         padding: 0;
+    }
+}
+
+@media screen and (max-width: 322px) {
+    .total-value {
+        margin-top: 15px;
     }
 }
