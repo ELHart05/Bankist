@@ -157,6 +157,13 @@ function refreshSpan(targetSpan) {
     targetSpan.textContent = `${concateZero(new Date().getDate())}/${concateZero(new Date().getMonth() + 1)}/${concateZero(new Date().getFullYear())}, ${concateZero(new Date().getHours())}:${concateZero(new Date().getMinutes())}`;
 }
 
+function removeBorderBlur() { //to clear and blur red border when timing ends
+    inputsTable.forEach(input => {
+        input.classList.remove("redBorder");
+        input.blur();
+    })
+}
+
 function loadDraws(movementsTab) {
     movementsCard.innerHTML = '';
     let cpt = movementsTab.length;
@@ -275,7 +282,9 @@ function checkUser(e) {
                     main.style.display = "none";
                     introP.style.display = "none";
                     mainForm.style.display = "flex";
+                    introStartDiv.style.display = "flex";
                     rights.classList.remove("rightsLogged");
+                    removeBorderBlur();
                     clearInterval(timing);
                 }
             };
@@ -355,8 +364,7 @@ function checkUser(e) {
                     mainForm.style.display = "flex";
                     rights.classList.remove("rightsLogged");
                     introStartDiv.style.display = "flex";
-                    inputUser.classList.remove("redBorder");
-                    inputPIN.classList.remove("redBorder");
+                    removeBorderBlur();
                     logo.classList.remove("logo-active");
                     clearInterval(timing);
                 } else {
